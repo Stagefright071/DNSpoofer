@@ -5,7 +5,7 @@ DNS (Domain Name System) spoofing (a.k.a. DNS cache poisoning) is an attack in w
 
 
 ```
-╭─stagefright@Aspire ~/Projects/DNSpoofer_Py ‹main*› 
+╭─compromyse@Aspire ~/Projects/DNSpoofer_Py ‹main*› 
 ╰─$ sudo python3.6 Dnspoof.py
 
 ██████╗░███╗░░██╗░██████╗██████╗░░█████╗░░█████╗░███████╗░░░██████╗░██╗░░░██╗
@@ -34,7 +34,7 @@ Exitting...
 
 > Clone git repository
 ```
-git clone https://github.com/Stagefright071/DNSpoofer_Py
+git clone https://github.com/compromyse/DNSpoofer_Py
 ```
 
 > Install script requirements
